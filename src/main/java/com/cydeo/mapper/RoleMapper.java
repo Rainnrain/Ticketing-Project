@@ -18,7 +18,7 @@ public class RoleMapper {
         return modelMapper.map(dto, Role.class);
     }
 
-    public RoleDTO convertTODto(Role entity){
+    public RoleDTO convertToDto(Role entity){
         return modelMapper.map(entity, RoleDTO.class);
 
     }
