@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskDTO {
+public class TaskDTO  {
 
     private Long id;
 
@@ -30,5 +30,6 @@ public class TaskDTO {
 
     private Status taskStatus;
     private LocalDate assignedDate;
+
 
 }

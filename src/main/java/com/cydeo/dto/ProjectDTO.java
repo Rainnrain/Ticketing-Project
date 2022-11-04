@@ -12,8 +12,9 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectDTO {
+public class ProjectDTO  {
 
+    private Long id;
     @NotBlank
     private String projectName;
 
@@ -48,5 +49,6 @@ public class ProjectDTO {
         this.projectDetail = projectDetail;
         this.projectStatus = projectStatus;
     }
+
 
 }
