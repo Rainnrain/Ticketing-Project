@@ -16,7 +16,7 @@ public class RoleDtoConverter implements Converter<String, RoleDTO> {
     public RoleDtoConverter(@Lazy RoleService roleService) {
         this.roleService = roleService;
     }
-
+// Added Lazy to break the cyclical dependency
     @Override
     public RoleDTO convert(String source) {
 
