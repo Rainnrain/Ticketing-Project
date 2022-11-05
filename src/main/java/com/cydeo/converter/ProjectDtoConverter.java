@@ -1,20 +1,17 @@
 package com.cydeo.converter;
 
 import com.cydeo.dto.ProjectDTO;
-
 import com.cydeo.service.ProjectService;
-import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationPropertiesBinding
+//@ConfigurationPropertiesBinding
 public class ProjectDtoConverter implements Converter<String, ProjectDTO> {
 
     ProjectService projectService;
 
-    public ProjectDtoConverter(@Lazy ProjectService projectService) {
+    public ProjectDtoConverter( ProjectService projectService) {
         this.projectService = projectService;
     }
 // Added Lazy to break the cyclical dependency
