@@ -16,7 +16,10 @@ public class UserDTO  {
     @Size(max = 15, min = 2)
     private String firstName;
 
-    private Long id;
+    private Long id; // Added ID because when mapping w/out
+    // the managers primary key is lost during the conversion when saving a project and mapping
+    // to entity. This make the foreign key null in project table for Manager
+    // preventing mapping to user table
 
     public Long getId() {
         return id;

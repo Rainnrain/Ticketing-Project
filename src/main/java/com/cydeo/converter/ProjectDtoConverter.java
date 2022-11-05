@@ -17,7 +17,7 @@ public class ProjectDtoConverter implements Converter<String, ProjectDTO> {
     public ProjectDtoConverter(@Lazy ProjectService projectService) {
         this.projectService = projectService;
     }
-
+// Added Lazy to break the cyclical dependency
     @Override
     public ProjectDTO convert(String source) {
 
