@@ -50,9 +50,7 @@ public class TaskServiceImpl implements TaskService {
             taskDTO.setAssignedDate(LocalDate.now());
         }
 
-
        Task task=taskMapper.convertToEntity(taskDTO);
-
 
         taskRepository.save(task);
 
@@ -72,12 +70,8 @@ public class TaskServiceImpl implements TaskService {
        updatedTask.setTaskStatus(task.getTaskStatus());
        updatedTask.setAssignedDate(task.getAssignedDate());
        updatedTask.setInsertUserId(task.getInsertUserId());
-       updatedTask.getProject().setId(projectRepository.findByProjectCode(updatedTask.getProject().getProjectCode()).getId());
 
 
-       taskRepository.save(updatedTask);
-
-
-       return taskMapper.convertToDTO(updatedTask);
+       return taskMapper.convertToDTO(taskRepository.save(updatedTask));
     }
 }

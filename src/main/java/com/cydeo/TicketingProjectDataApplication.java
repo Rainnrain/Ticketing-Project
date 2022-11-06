@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication
+@SpringBootApplication// This includes @Configuartions so we don't need to make a config class
 public class TicketingProjectDataApplication {
 
     public static void main(String[] args) {
