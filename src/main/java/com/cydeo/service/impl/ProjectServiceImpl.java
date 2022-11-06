@@ -1,12 +1,10 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.ProjectDTO;
-import com.cydeo.dto.TaskDTO;
-import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Project;
+import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
 import com.cydeo.mapper.ProjectMapper;
-import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.ProjectRepository;
 import com.cydeo.service.ProjectService;
 import org.springframework.stereotype.Service;
@@ -21,12 +19,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectMapper projectMapper;
 
-    private final UserMapper userMapper;
-
-    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper, UserMapper userMapper) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
-        this.userMapper = userMapper;
     }
 
     @Override
@@ -45,7 +40,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void save(ProjectDTO dto) {
         if(dto.getProjectStatus()==null) {
-          dto.setProjectStatus(Status.OPEN);
+            dto.setProjectStatus(Status.OPEN);
         }
         projectRepository.save(projectMapper.convertToEntity(dto));
 
@@ -76,18 +71,4 @@ public class ProjectServiceImpl implements ProjectService {
         project.setProjectStatus(Status.COMPLETE);
         projectRepository.save(project);
     }
-
-//    @Override
-//    public  List<ProjectDTO>  getCountedListOfProjectDTO(UserDTO user) {
-//
-//    List<Project> projectList= projectRepository.findAllByAssignedManager(userMapper.convertToEntity(user));
-//    projectList.stream().map(project -> {
-//
-//
-//
-//            }
-//
-//
-//
-//    }
 }
