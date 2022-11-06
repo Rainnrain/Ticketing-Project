@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -30,48 +31,48 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> listAllTasks() {
-        List<TaskDTO> taskDTOList= taskRepository.findAll().stream().map(taskMapper::convertToDTO).collect(Collectors.toList());
-       return  taskDTOList;
+       return taskRepository.findAll().stream().map(taskMapper::convertToDTO).collect(Collectors.toList());
+
     }
 
     @Override
     public TaskDTO findById(Long id) {
-    Task task= taskRepository.findById(id).get();
-    TaskDTO taskDTO=taskMapper.convertToDTO(task);
-        return taskDTO;
+        Optional<Task> task= taskRepository.findById(id);
+        if(task.isPresent()){
+           return taskMapper.convertToDTO(task.get());
+        }
+        return null;
     }
 
     @Override
     public void save(TaskDTO taskDTO) {
-        if(taskDTO.getTaskStatus()==null) {
-            taskDTO.setTaskStatus(Status.OPEN);
-        }
-        if(taskDTO.getAssignedDate()==null){
-            taskDTO.setAssignedDate(LocalDate.now());
-        }
 
-       Task task=taskMapper.convertToEntity(taskDTO);
-
+        taskDTO.setTaskStatus(Status.OPEN);
+        taskDTO.setAssignedDate(LocalDate.now());
+        Task task=taskMapper.convertToEntity(taskDTO);
         taskRepository.save(task);
-
     }
 
     @Override
     public void deleteById(Long id) {
-        Task task=taskRepository.findById(id).orElseThrow();
-        task.setIsDeleted(true);
-        taskRepository.save(task);
+        Optional<Task> foundTask=taskRepository.findById(id);
+        if(foundTask.isPresent()){
+            foundTask.get().setIsDeleted(true);
+        }
+
+        taskRepository.save(foundTask.get());
     }
 
     @Override
-    public TaskDTO update(TaskDTO taskDTO) {
-       Task task= taskRepository.findById(taskDTO.getId()).get();
+    public void update(TaskDTO taskDTO) {
+       Optional<Task> task= taskRepository.findById(taskDTO.getId());
        Task updatedTask= taskMapper.convertToEntity(taskDTO);
-       updatedTask.setTaskStatus(task.getTaskStatus());
-       updatedTask.setAssignedDate(task.getAssignedDate());
-       updatedTask.setInsertUserId(task.getInsertUserId());
 
+       if(task.isPresent()){
+           updatedTask.setTaskStatus(task.get().getTaskStatus());
+           updatedTask.setAssignedDate(task.get().getAssignedDate());
+           taskRepository.save(updatedTask);
+       }
 
-       return taskMapper.convertToDTO(taskRepository.save(updatedTask));
     }
 }

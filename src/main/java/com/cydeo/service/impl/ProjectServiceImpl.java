@@ -42,11 +42,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void save(ProjectDTO dto) {
-        if(dto.getProjectStatus()==null) {
-            dto.setProjectStatus(Status.OPEN);
-        }
-        projectRepository.save(projectMapper.convertToEntity(dto));
 
+        dto.setProjectStatus(Status.OPEN);
+        projectRepository.save(projectMapper.convertToEntity(dto));
     }
 
     @Override

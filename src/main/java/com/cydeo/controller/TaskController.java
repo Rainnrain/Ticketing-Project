@@ -41,15 +41,15 @@ public class TaskController {
     @PostMapping("/create")
     public String insertTask( @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
 
-//        if (bindingResult.hasErrors()) {
-//
-//            model.addAttribute("projects", projectService.listAllProjects());
-//            model.addAttribute("employees", userService.listAllByRole("Employee"));
-//            model.addAttribute("tasks", taskService.listAllTasks());
-//
-//            return "/task/create";
-//
-//        }
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("employees", userService.listAllByRole("Employee"));
+            model.addAttribute("tasks", taskService.listAllTasks());
+
+            return "/task/create";
+
+        }
 
         taskService.save(task);
 
