@@ -75,41 +75,41 @@ public class ProjectController {
         return "/project/update";
 
     }
-//
-//    @PostMapping("/update")
-//    public String updateProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
-//
-//        if (bindingResult.hasErrors()) {
-//
-//            model.addAttribute("managers", userService.findManagers());
-//            model.addAttribute("projects", projectService.findAll());
-//
-//            return "/project/update";
-//
-//        }
-//
-//        projectService.update(project);
-//
-//        return "redirect:/project/create";
-//
-//    }
-//
-//    @GetMapping("/manager/project-status")
-//    public String getProjectByManager(Model model) {
-//
-//        UserDTO manager = userService.findById("john@cydeo.com");
-//        List<ProjectDTO> projects = projectService.getCountedListOfProjectDTO(manager);
-//
-//        model.addAttribute("projects", projects);
-//
-//        return "/manager/project-status";
-//
-//    }
-//
-//    @GetMapping("/manager/complete/{projectCode}")
-//    public String managerCompleteProject(@PathVariable("projectCode") String projectCode) {
-//        projectService.complete(projectService.findById(projectCode));
-//        return "redirect:/project/manager/project-status";
-//    }
+
+    @PostMapping("/update")
+    public String updateProject( @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("managers", userService.listAllByRole("Manager"));
+            model.addAttribute("projects", projectService.listAllProjects());
+
+            return "/project/update";
+
+        }
+
+        projectService.update(project);
+
+        return "redirect:/project/create";
+
+    }
+
+    @GetMapping("/manager/project-status")
+    public String getProjectByManager(Model model) {
+
+        UserDTO manager = userService.findByUserName("admin@admin.com");
+        List<ProjectDTO> projects = projectService.ListOfProjectsByManager(manager);
+
+        model.addAttribute("projects", projects);
+
+        return "/manager/project-status";
+
+    }
+
+    @GetMapping("/manager/complete/{projectCode}")
+    public String managerCompleteProject(@PathVariable("projectCode") String projectCode) {
+        projectService.complete(projectCode);
+        return "redirect:/project/manager/project-status";
+    }
 
 }

@@ -5,6 +5,7 @@ import com.cydeo.enums.Status;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -18,11 +19,11 @@ import java.time.LocalDate;
 
 public class Task extends BaseEntity{
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "projects_id")
+    @ManyToOne
+    @JoinColumn(name = "projects_id" )
     private Project project;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="users_id")
     private User assignedEmployee;
 
