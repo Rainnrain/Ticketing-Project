@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
-
     private final ProjectMapper projectMapper;
     private final UserMapper userMapper;
     private final TaskService taskService;
@@ -50,7 +49,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void save(ProjectDTO dto) {
-
         dto.setProjectStatus(Status.OPEN);
         projectRepository.save(projectMapper.convertToEntity(dto));
     }
@@ -71,7 +69,9 @@ public class ProjectServiceImpl implements ProjectService {
 
        Project project= projectRepository.findByProjectCode(projectCode);
         project.setIsDeleted(true);
+        project.setProjectCode(project.getProjectCode()+"-"+project.getId());
         projectRepository.save(project);
+        taskService.deleteByProject(projectMapper.convertToDto(project)); // deletes all tasks associated with a gievn project
     }
 
     @Override
@@ -79,49 +79,10 @@ public class ProjectServiceImpl implements ProjectService {
         Project project= projectRepository.findByProjectCode(projectCode);
         project.setProjectStatus(Status.COMPLETE);
         projectRepository.save(project);
+        taskService.completeByProject(projectMapper.convertToDto(project)); // marks all tasks as completed associated with a given project
     }
 
-//    @Override
-//    public List<ProjectDTO> ListOfProjectsByManager(UserDTO manager) {
-//
-//       List <ProjectDTO> projectsByManager= projectRepository.findAllByAssignedManager(userMapper.convertToEntity(manager)).stream()
-//               .map(projectMapper::convertToDto).collect(Collectors.toList());
-//
-//       projectsByManager.stream().map(projectDTO -> {
-//
-//         int complete= taskRepository.findByTaskStatus(Status.COMPLETE).size();
-//          int inProgress= taskRepository.findByTaskStatusNot(Status.COMPLETE).size();
-//
-//           projectDTO.setUnfinishedTaskCounts(inProgress);
-//           projectDTO.setCompleteTaskCounts(complete);
-//           return projectDTO;
-//       }).collect(Collectors.toList());
-//
-//      return projectsByManager;
-//
-//               }
 
-//    @Override
-//    public List<ProjectDTO> listAllProjectDetails() {
-//
-//        UserDTO userDTO=userService.findByUserName("harold@manager.com");
-//        User manager= userMapper.convertToEntity(userDTO);
-//
-//        List <ProjectDTO> projectsByManager= projectRepository.findAllByAssignedManager(manager).stream()
-//                .map(projectMapper::convertToDto).collect(Collectors.toList());
-//
-//        projectsByManager.stream().map(projectDTO -> {
-//
-//            int complete= taskRepository.findByTaskStatus(Status.COMPLETE).size();
-//            int inProgress= taskRepository.findByTaskStatusNot(Status.COMPLETE).size();
-//
-//            projectDTO.setUnfinishedTaskCounts(inProgress);
-//            projectDTO.setCompleteTaskCounts(complete);
-//            return projectDTO;
-//        }).collect(Collectors.toList());
-//
-//        return projectsByManager;
-//    }
 
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
@@ -130,7 +91,6 @@ public class ProjectServiceImpl implements ProjectService {
         User user = userMapper.convertToEntity(currentUserDTO);
 
         List<Project> list = projectRepository.findAllByAssignedManager(user);
-
 
         return list.stream().map(project -> {
 

@@ -97,13 +97,13 @@ public class TaskController {
 
     @GetMapping("/employee/pending-tasks")
     public String employeePendingTasks(Model model) {
-        model.addAttribute("tasks", taskService.findUncompletedTasks());
+        model.addAttribute("tasks", taskService.listsAllTasksByStatusIsNot(Status.COMPLETE));
         return "/task/pending-tasks";
     }
 
     @GetMapping("/employee/archive")
     public String employeeArchivedTasks(Model model) {
-        model.addAttribute("tasks", taskService.findCompletedTasks());
+        model.addAttribute("tasks", taskService.listAllTasksByStatus(Status.COMPLETE));
         return "/task/archive";
     }
 
@@ -114,7 +114,7 @@ public class TaskController {
         model.addAttribute("projects", projectService.listAllProjects());
         model.addAttribute("employees", userService.listAllByRole("Employee"));
         model.addAttribute("statuses", Status.values());
-        model.addAttribute("tasks", taskService.findUncompletedTasks());
+        model.addAttribute("tasks", taskService.listsAllTasksByStatusIsNot(Status.COMPLETE));
 
         return "/task/status-update";
 
@@ -126,7 +126,7 @@ public class TaskController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("statuses", Status.values());
-            model.addAttribute("tasks", taskService.findUncompletedTasks());
+            model.addAttribute("tasks", taskService.listsAllTasksByStatusIsNot(Status.COMPLETE));
 
             return "/task/status-update";
 
