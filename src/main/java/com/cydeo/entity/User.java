@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="users")
 @NoArgsConstructor
-@Where(clause="is_deleted=false")
+//@Where(clause="is_deleted=false")
 public class User extends BaseEntity {
 
     private String firstName;

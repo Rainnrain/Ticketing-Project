@@ -29,7 +29,7 @@ public class ProjectController {
 
         model.addAttribute("project", new ProjectDTO());
         model.addAttribute("managers", userService.listAllByRole("Manager"));
-        model.addAttribute("projects", projectService.listAllProjects());
+        model.addAttribute("projects", projectService.listAllProjectDetails());
 
         return "/project/create";
 
@@ -41,7 +41,7 @@ public class ProjectController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("managers", userService.listAllByRole("Manager"));
-            model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("projects", projectService.listAllProjectDetails());
 
             return "/project/create";
 
@@ -70,19 +70,19 @@ public class ProjectController {
 
         model.addAttribute("project", projectService.getByProjectCode(projectCode));
         model.addAttribute("managers", userService.listAllByRole("Manager"));
-        model.addAttribute("projects", projectService.listAllProjects());
+        model.addAttribute("projects", projectService.listAllProjectDetails());
 
         return "/project/update";
 
     }
 
     @PostMapping("/update")
-    public String updateProject( @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
+    public String updateProject( @Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("managers", userService.listAllByRole("Manager"));
-            model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("projects", projectService.listAllProjectDetails());
 
             return "/project/update";
 
