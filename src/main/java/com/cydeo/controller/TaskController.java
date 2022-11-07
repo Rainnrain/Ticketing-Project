@@ -33,26 +33,20 @@ public class TaskController {
         model.addAttribute("projects", projectService.listAllProjects());
         model.addAttribute("employees", userService.listAllByRole("Employee"));
         model.addAttribute("tasks", taskService.listAllTasks());
-
         return "/task/create";
-
     }
 
     @PostMapping("/create")
     public String insertTask( @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-
             model.addAttribute("projects", projectService.listAllProjects());
             model.addAttribute("employees", userService.listAllByRole("Employee"));
             model.addAttribute("tasks", taskService.listAllTasks());
-
             return "/task/create";
-
         }
 
         taskService.save(task);
-
         return "redirect:/task/create";
 
     }
@@ -70,29 +64,20 @@ public class TaskController {
         model.addAttribute("projects", projectService.listAllProjects());
         model.addAttribute("employees", userService.listAllByRole("Employee"));
         model.addAttribute("tasks", taskService.listAllTasks());
-
         return "/task/update";
-
     }
-
 
     @PostMapping("/update/{id}")
     public String updateTask( @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-
             model.addAttribute("projects", projectService.listAllProjects());
             model.addAttribute("employees", userService.listAllByRole("Employee"));
             model.addAttribute("tasks", taskService.listAllTasks());
-
             return "/task/update";
-
         }
-
         taskService.update(task);
-
         return "redirect:/task/create";
-
     }
 
     @GetMapping("/employee/pending-tasks")
@@ -115,27 +100,19 @@ public class TaskController {
         model.addAttribute("employees", userService.listAllByRole("Employee"));
         model.addAttribute("statuses", Status.values());
         model.addAttribute("tasks", taskService.listsAllTasksByStatusIsNot(Status.COMPLETE));
-
         return "/task/status-update";
-
     }
 
     @PostMapping("/employee/update/{id}")
     public String employeeUpdateTask( @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-
             model.addAttribute("statuses", Status.values());
             model.addAttribute("tasks", taskService.listsAllTasksByStatusIsNot(Status.COMPLETE));
-
             return "/task/status-update";
-
         }
-
         taskService.update(task);
-
         return "redirect:/task/employee/pending-tasks";
-
     }
 
 }

@@ -12,6 +12,7 @@ import com.cydeo.repository.TaskRepository;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +25,10 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectMapper projectMapper;
     private final UserMapper userMapper;
     private final TaskService taskService;
+
     private final UserService userService;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper, UserMapper userMapper, TaskService taskService, UserService userService) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper, UserMapper userMapper, @Lazy TaskService taskService, @Lazy UserService userService) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
         this.userMapper = userMapper;
@@ -103,6 +105,15 @@ public class ProjectServiceImpl implements ProjectService {
                 }
 
         ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProjectDTO> listAllNonCompletedByAssignedManager(UserDTO assignedManager) {
+
+      List<Project> projectList= projectRepository
+                .findAllByProjectStatusIsNotAndAndAssignedManager(Status.COMPLETE, userMapper
+                        .convertToEntity(assignedManager));
+      return projectList.stream().map(projectMapper::convertToDto).collect(Collectors.toList());
     }
 }
 

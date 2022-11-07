@@ -13,6 +13,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     Project findByProjectCode(String ProjectCode);
     List<Project> findAllByAssignedManager(User manager);
 
-
+    List<Project> findAllByProjectStatusIsNotAndAndAssignedManager(Status status, User user);
 
 }
