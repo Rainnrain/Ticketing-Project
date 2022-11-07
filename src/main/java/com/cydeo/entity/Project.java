@@ -41,8 +41,6 @@ public class Project extends BaseEntity{
       private User assignedManager;
 
 
-//      private int completeTaskCounts;
-//      private int unfinishedTaskCounts;
 
 
 
