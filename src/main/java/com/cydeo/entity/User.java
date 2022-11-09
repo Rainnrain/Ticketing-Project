@@ -15,11 +15,12 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="users")
 @NoArgsConstructor
-//@Where(clause="is_deleted=false")
+//@Where(clause="is_deleted=false") // created custom queries to avoid errors when dealing with projects associated with deleted users.
 public class User extends BaseEntity {
 
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String userName;
     private String passWord;
     private boolean enabled;
