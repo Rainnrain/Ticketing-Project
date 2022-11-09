@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 //    @Override
 //    public void deleteByUserName(String userName) {
 //        userRepository.deleteByUserName(userName);
-//    }
+//    } Used for hard deletion, but I am using a soft deletion instead
 
     @Override
     public UserDTO update(UserDTO userDto) {
